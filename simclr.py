@@ -185,7 +185,7 @@ def train_logreg(batch_size, train_feats_data, test_feats_data, model_suffix, ma
     test_loader = data.DataLoader(test_feats_data, batch_size=batch_size, shuffle=False, 
                                   drop_last=False, pin_memory=True, num_workers=0)
 
-    pretrained_filename = os.path.join(CHECKPOINT_PATH, f"LogisticRegression_{model_suffix}_2.ckpt")
+    pretrained_filename = os.path.join(CHECKPOINT_PATH, f"LogisticRegression.ckpt")
     if os.path.isfile(pretrained_filename):
         print(f"Found pretrained model at {pretrained_filename}, loading...")
         model = LogisticRegression.load_from_checkpoint(pretrained_filename)
@@ -212,7 +212,7 @@ def get_smaller_dataset(original_dataset, num_imgs_per_label):
 
 
 results = {}
-for num_imgs_per_label in [10, 20, 50, 100, 200, 500]:
+for num_imgs_per_label in [10, 20, 50, 100, 200, 500, 2000]:
     sub_train_set = get_smaller_dataset(train_feats_simclr, num_imgs_per_label)
     _, small_set_results = train_logreg(batch_size=64,
                                         train_feats_data=sub_train_set,
